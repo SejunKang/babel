@@ -2,6 +2,7 @@
 #include "RunAction.hh"
 #include "G4AnalysisManager.hh"
 #include "PrimaryGeneratorAction.hh"
+#include "TFile.h"
 
 //G4ThreadLocal IDList id;
 G4ThreadLocal countList cid;
@@ -48,10 +49,9 @@ void RunAction::BeginOfRunAction(const G4Run* run)
 {
     fTotalEvents = run -> GetNumberOfEventToBeProcessed();
     G4AnalysisManager *AM = G4AnalysisManager::Instance();
-    if (PrimaryGeneratorAction::IsVertical && G4Threading::G4GetThreadId() == 0) G4cerr << "Current beam position : " << PrimaryGeneratorAction::fzpos << G4endl;
 
     AM -> SetVerboseLevel(0);
-    if (PrimaryGeneratorAction::IsVertical) AM -> OpenFile("output_ver.root");
+    if (PrimaryGeneratorAction::IsVertical) AM -> OpenFile();
     else AM -> OpenFile("output_hor.root");
 /*   
     id.pName = AM -> CreateNtupleSColumn(0, "parName");

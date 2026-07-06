@@ -34,7 +34,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
 	G4int eventID = event -> GetEventID();
 	G4AnalysisManager *AM = G4AnalysisManager::Instance();
 
-	if (PrimaryGeneratorAction::IsVertical) AM -> FillNtupleDColumn(0, cid.pos, PrimaryGeneratorAction::fzpos /cm);
+	if (PrimaryGeneratorAction::IsVertical) AM -> FillNtupleDColumn(0, cid.pos, PrimaryGeneratorAction::fzpos);
 	AM -> FillNtupleIColumn(0, cid.eid, eventID);
 	AM -> FillNtupleIColumn(0, cid.num, nPhot);
 	AM -> AddNtupleRow(0);
