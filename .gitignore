@@ -1,0 +1,7 @@
+*.root
+*~
+*.swp
+.*.sw?
+
+build/*
+!build/Addup.cc

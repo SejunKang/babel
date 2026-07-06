@@ -1,0 +1,47 @@
+/run/initialize
+/gun/vertical true
+
+/gun/zpos -70 cm
+/run/beamOn 1000
+
+/gun/zpos -60 cm
+/run/beamOn 1000
+
+/gun/zpos -50 cm
+/run/beamOn 1000
+
+/gun/zpos -40 cm
+/run/beamOn 1000
+
+/gun/zpos -30 cm
+/run/beamOn 1000
+
+/gun/zpos -20 cm
+/run/beamOn 1000
+
+/gun/zpos -10 cm
+/run/beamOn 1000
+
+/gun/zpos 0 cm
+/run/beamOn 1000
+
+/gun/zpos 10 cm
+/run/beamOn 1000
+
+/gun/zpos 20 cm
+/run/beamOn 1000
+
+/gun/zpos 30 cm
+/run/beamOn 1000
+
+/gun/zpos 40 cm
+/run/beamOn 1000
+
+/gun/zpos 50 cm
+/run/beamOn 1000
+
+/gun/zpos 60 cm
+/run/beamOn 1000
+
+/gun/zpos 70 cm
+/run/beamOn 1000
