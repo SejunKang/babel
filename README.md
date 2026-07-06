@@ -40,7 +40,7 @@ b. Run in batch mode (Horizontal)
 I have made two different macro files for horizontal incidence and vertical incidence. To shoot the beam horizontally, use `run_hor.mac`.
 
 ```
-./cosmu run_hor.mac
+./babel run_hor.mac
 ```
 
 This will automatically run the simulation without any graphic visualization. To change the number of beams, open `run.mac` and change the number in the line `/run/beamOn <number>`. You must do `make` in the `build` directory after changing anything.
@@ -54,7 +54,7 @@ Vertical incidence is run for 15 different positions on the scintillator: -70 cm
 Using `run_ver.mac`, the simulation automatically runs the 15 different positions sequentially.
 
 ```
-./cosmu run_ver.mac
+./babel run_ver.mac
 ```
 
 Once the simulation is done, the output ROOT file `output_ver.root` will be generated.
