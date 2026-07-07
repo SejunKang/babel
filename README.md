@@ -35,7 +35,7 @@ a. Run in UI mode
 
 Push the green start button on the top of the GUI screen to shoot one muon beam. If you want to shoot multiple beams, type `/run/beamOn <number>` in the UI window.
 
-(Not recommendend because I refined the beam shooting logic, which became quite complicated.) 
+(Not recommended because I refined the beam shooting logic, which became quite complicated.) 
 
 b. Run in batch mode (Horizontal)
 
