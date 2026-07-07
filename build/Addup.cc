@@ -45,14 +45,14 @@ void Addup() {
 	std::cout << "-------------------------<Analysis>-------------------------" << std::endl;
 	std::cout << "Horizontal Incidence : " << counthor << std::endl;
 	for (int m = 0; m < 15; m++) {
-		distList[m] = 10*m;
+		distList[m] = 10*m + 5;
 		ratList[m] = (double) counthor/countver[m];
 		std::cout << "Vertical Incidence at " << distList[m] << " cm : " << countver[m] << std::endl;
 		std::cout << std::setprecision(4) << "H/V Ratio : " << ratList[m] << std::endl;
 		std::cout << "------------------------------------------------------------" << std::endl;
 	}
 
-	TCanvas* c1 = new TCanvas("c1", "c1", 800, 600);
+	TCanvas* c1 = new TCanvas("c1", "c1", 1200, 800);
 	gPad -> SetGrid();
 
 	TGraph *gr = new TGraph(15, distList, ratList);
