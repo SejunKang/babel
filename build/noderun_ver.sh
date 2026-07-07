@@ -9,8 +9,5 @@ export MKL_NUM_THREADS=1
 
 export G4FORCENUMBEROFTHREADS=50
 
-#Horizontal run
-./babel run_hor.mac
-
 #Vertical run
-#./run_ver_all.sh
+./run_ver_all.sh

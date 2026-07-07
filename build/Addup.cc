@@ -24,7 +24,7 @@ void Addup() {
 	unsigned long countver[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	unsigned long counthor = 0;
 
-	double reflist[15] = {-70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60, 70};
+	double reflist[15] = {-70., -60., -50., -40., -30., -20., -10., 0., 10., 20., 30., 40., 50., 60., 70.};
 
 	for (int i = 0; i < ver_entNum; i++) {
 		vertree -> GetEntry(i);
@@ -39,11 +39,28 @@ void Addup() {
 		counthor += hornum;
 	}
 
+	double distList[15] = {0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.};
+	double ratList[15] = {0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.};
+
 	std::cout << "-------------------------<Analysis>-------------------------" << std::endl;
 	std::cout << "Horizontal Incidence : " << counthor << std::endl;
 	for (int m = 0; m < 15; m++) {
-		std::cout << "Vertical Incidence at " << m << " cm : " << countver[m] << std::endl;
-		std::cout << std::setprecision(4) << "H/V Ratio : " << (double) counthor/countver[m] << std::endl;
+		distList[m] = 10*m;
+		ratList[m] = (double) counthor/countver[m];
+		std::cout << "Vertical Incidence at " << distList[m] << " cm : " << countver[m] << std::endl;
+		std::cout << std::setprecision(4) << "H/V Ratio : " << ratList[m] << std::endl;
 		std::cout << "------------------------------------------------------------" << std::endl;
 	}
+
+	TCanvas* c1 = new TCanvas("c1", "c1", 800, 600);
+	gPad -> SetGrid();
+
+	TGraph *gr = new TGraph(15, distList, ratList);
+	gr -> SetLineColor(kBlack);
+    gr -> SetLineWidth(2);
+	gr -> SetMarkerStyle(21);
+    gr -> SetMarkerColor(38);
+    gr -> SetMarkerSize(3);
+	gr -> SetTitle("H/V Ratio by Beam Position;Position [cm];H/V Ratio");
+	gr -> Draw();
 }
