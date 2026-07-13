@@ -74,4 +74,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 	fEvent -> AddNum();		
         track -> SetTrackStatus(fStopAndKill);  
    }
+
+   if (parName == "opticalphoton" && namePostPV == "WorldPV") track -> SetTrackStatus(fStopAndKill);
 }

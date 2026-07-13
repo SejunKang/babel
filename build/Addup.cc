@@ -62,5 +62,7 @@ void Addup() {
     gr -> SetMarkerColor(38);
     gr -> SetMarkerSize(3);
 	gr -> SetTitle("H/V Ratio by Beam Position;Position [cm];H/V Ratio");
+	//gr -> SetMinimum(25);
+	//gr -> SetMaximum(32);
 	gr -> Draw();
 }

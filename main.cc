@@ -22,11 +22,11 @@ int main(int argc, char **argv) {
 
      //Construct the default run manager
      auto runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+     auto AM = G4AnalysisManager::Instance();
 
      //Apply MT mode
-#ifdef G4MULTITHREAD
-     runManager -> SetNumberOfThreads(10);   //10 cores
-     auto AM = G4AnalysisManager::Instance();
+#ifdef G4MULTITHREADED
+     runManager -> SetNumberOfThreads(50);   //50 cores
      AM -> SetNtupleMerging(true);
 #endif
 
@@ -58,9 +58,6 @@ int main(int argc, char **argv) {
          G4String filename = argv[1];
          UImanager->ApplyCommand(command + filename);
      }
-   
-
-     auto AM = G4AnalysisManager::Instance();
 
      if (AM -> IsOpenFile()) {
         AM -> Write();

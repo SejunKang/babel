@@ -27,6 +27,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      G4NistManager *nist = G4NistManager::Instance();
      auto matPlastic = nist -> FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
      auto matPMT = nist -> FindOrBuildMaterial("G4_Pyrex_Glass");
+     auto matTef = nist -> FindOrBuildMaterial("G4_TEFLON");
      auto matFoil = nist -> FindOrBuildMaterial("G4_Al");
  
      //Optical Properties
@@ -139,41 +140,64 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      PMTLog -> SetVisAttributes(new G4VisAttributes(G4Colour::Grey()));
      auto PMTPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 800 *mm), PMTLog, "PMTPhy", WorldLV, false, 0, true);
 
-     //0.5 mm thick aluminum foil that covers the scintillator body
-	G4Box *OutFoil =  new G4Box("OutFoil", 26.0 *mm, 26.0 *mm, 750.5 *mm);
-	G4Box *InFoil = new G4Box("InFoil", 25.5 *mm, 25.5 *mm, 750. *mm);
+     //0.5 mm thick Teflon film that covers the scintillator body
+	G4Box *OutTef =  new G4Box("OutTef", 26.0 *mm, 26.0 *mm, 750.5 *mm);
+	G4Box *InTef = new G4Box("InTef", 25.5 *mm, 25.5 *mm, 750. *mm);
+     G4Tubs *TefCutter = new G4Tubs("TefCutter", 0., 26. *mm, 0.25 *mm, 0. *deg, 360. *deg);
+	G4SubtractionSolid *TefSolUncut = new G4SubtractionSolid("TefSolUncut", OutTef, InTef, nullptr, G4ThreeVector(0., 0., 0.));
+     G4SubtractionSolid *TefSol = new G4SubtractionSolid("TefSol", TefSolUncut, TefCutter, nullptr, G4ThreeVector(0., 0., 750.25 *mm));
+	G4LogicalVolume *TefLog = new G4LogicalVolume(TefSol, matTef, "TefLog");
+	G4PVPlacement *TefPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 0.), TefLog, "TefPhy", WorldLV, false, 0, true);
+/*
+     //0.5 mm thick aluminum foil that covers the scintillator body + Teflon
+	G4Box *OutFoil =  new G4Box("OutFoil", 26.5 *mm, 26.5 *mm, 751.0 *mm);
+	G4Box *InFoil = new G4Box("InFoil", 26.0 *mm, 26.0 *mm, 750.5 *mm);
      G4Tubs *FoilCutter = new G4Tubs("FoilCutter", 0., 26. *mm, 0.25 *mm, 0. *deg, 360. *deg);
 	G4SubtractionSolid *FoilSolUncut = new G4SubtractionSolid("FoilSolUncut", OutFoil, InFoil, nullptr, G4ThreeVector(0., 0., 0.));
-     G4SubtractionSolid *FoilSol = new G4SubtractionSolid("FoilSol", FoilSolUncut, FoilCutter, nullptr, G4ThreeVector(0., 0., 750.25 *mm));
+     G4SubtractionSolid *FoilSol = new G4SubtractionSolid("FoilSol", FoilSolUncut, FoilCutter, nullptr, G4ThreeVector(0., 0., 750.75 *mm));
 	G4LogicalVolume *FoilLog = new G4LogicalVolume(FoilSol, matFoil, "FoilLog");
 	G4PVPlacement *FoilPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 0.), FoilLog, "FoilPhy", WorldLV, false, 0, true);
-
+*/
      //Optical surfaces
-     /*
      G4double ephoton[2] = {1.554 *eV, 4.959 *eV};
-     G4double Surf_reflectivity[2] = {0.97, 0.97};
+     G4double Foil_reflectivity[2] = {0.80, 0.80};
 	G4MaterialPropertiesTable *SMPT = new G4MaterialPropertiesTable();
-	SMPT -> AddProperty("REFLECTIVITY", ephoton, Surf_reflectivity, 2);
-     */
+	SMPT -> AddProperty("REFLECTIVITY", ephoton, Foil_reflectivity, 2);
 
 	G4OpticalSurface* OpSurface1 = new G4OpticalSurface("OpSurf1");
      G4OpticalSurface* OpSurface2 = new G4OpticalSurface("OpSurf2");
+     G4OpticalSurface* OpSurface3 = new G4OpticalSurface("OpSurf3");
 	
-	G4LogicalBorderSurface* LBS1 = new G4LogicalBorderSurface("LBS1", ScintPV, FoilPhy, OpSurface1);
-     G4LogicalBorderSurface* LBS2 = new G4LogicalBorderSurface("LBS2",ScintPV, PMTPhy, OpSurface2);
+	//G4LogicalBorderSurface* LBS1 = new G4LogicalBorderSurface("LBS1", ScintPV, TefPhy, OpSurface1);
+     G4LogicalBorderSurface* LBS1 = new G4LogicalBorderSurface("LBS1", ScintPV, WorldPV, OpSurface1);
+     G4LogicalBorderSurface* LBS2 = new G4LogicalBorderSurface("LBS2", ScintPV, PMTPhy, OpSurface2);
+     //G4LogicalBorderSurface* LBS3 = new G4LogicalBorderSurface("LBS3", TefPhy, FoilPhy, OpSurface3);
 	
-     //Teflon layer that covers the scintillator
+     //Random reflectivity of Teflon surface
+     /*
 	OpSurface1 -> SetType(dielectric_LUTDAVIS);
 	OpSurface1 -> SetModel(DAVIS);
-	OpSurface1 -> SetFinish(PolishedTeflon_LUT);
+	OpSurface1 -> SetFinish(RoughTeflon_LUT);
+     */
+     G4double Surf_reflectivity[2] = {0.90, 0.90};
+     G4MaterialPropertiesTable *SMPT2 = new G4MaterialPropertiesTable();
+	SMPT2 -> AddProperty("REFLECTIVITY", ephoton, Surf_reflectivity, 2);
+     OpSurface1 -> SetType(dielectric_dielectric);
+     OpSurface1 -> SetModel(unified);
+     OpSurface1 -> SetFinish(polished);
+     OpSurface1 -> SetMaterialPropertiesTable(SMPT2);
 
-     //Optical grease applied to the PMT lens
-     OpSurface2 -> SetType(dielectric_LUTDAVIS);	
-	OpSurface2 -> SetModel(DAVIS);
-	OpSurface2 -> SetFinish(PolishedESRGrease_LUT);
-	
-	//OpSurface1 -> SetMaterialPropertiesTable(SMPT);
-
+     //Boundary between PMT & Scintillator
+     OpSurface2 -> SetType(dielectric_dielectric);
+     OpSurface2 -> SetModel(unified);
+     OpSurface2 -> SetFinish(polished);
+/*
+     //Reflectivity of aluminum foil (80%)
+	OpSurface3 -> SetType(dielectric_metal);
+	OpSurface3 -> SetModel(unified);
+	OpSurface3 -> SetFinish(polished);
+	OpSurface3 -> SetMaterialPropertiesTable(SMPT);
+*/
      //Step limit to 1 cm
      //G4UserLimits *userLimits = new G4UserLimits(1.0 *cm);
      //WorldLV -> SetUserLimits(userLimits);
