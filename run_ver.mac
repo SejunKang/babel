@@ -1,7 +1,7 @@
 /run/initialize
 /gun/vertical true
 
-/gun/zpos POS cm
+/gun/zpos POS
 
 /analysis/setFileName output_ver_POS.root
 /run/beamOn NUM

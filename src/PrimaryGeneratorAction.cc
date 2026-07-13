@@ -12,7 +12,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(): G4VUserPrimaryGeneratorAction(
 {
     fPrimary = new G4ParticleGun();
 	messenger = new G4GenericMessenger(this, "/gun/", "Primary control");
-	messenger -> DeclareProperty("zpos", fzpos, "Cosmic muon z position");
+	messenger -> DeclarePropertyWithUnit("zpos", "cm", fzpos, "Cosmic muon z position");
 	messenger -> DeclareProperty("vertical", IsVertical, "Decide particle gun direction");
 }
 
