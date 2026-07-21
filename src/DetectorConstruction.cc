@@ -25,13 +25,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 {
      //Material definition
      G4NistManager *nist = G4NistManager::Instance();
-     auto matPlastic = nist -> FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
+     std::vector<G4String> ScintEle = {"H", "C"};
+	std::vector<G4double> ScintRat = {5.17, 4.69};
+	auto matPlastic = nist -> ConstructNewMaterial("matPlastic", ScintEle, ScintRat, 1.023 *g/cm3);
      auto matPMT = nist -> FindOrBuildMaterial("G4_Pyrex_Glass");
-     auto matTef = nist -> FindOrBuildMaterial("G4_TEFLON");
      auto matFoil = nist -> FindOrBuildMaterial("G4_Al");
+	auto matTef = nist -> FindOrBuildMaterial("G4_TEFLON");
  
      //Optical Properties
-     std::vector <G4double> energy = {2.480 *eV, 2.485 *eV, 2.490 *eV, 2.495 *eV, 2.500 *eV, 2.505 *eV, 2.510 *eV, 2.515 *eV, 2.520 *eV, 2.525 *eV,
+     std::vector<G4double> energy = {2.480 *eV, 2.485 *eV, 2.490 *eV, 2.495 *eV, 2.500 *eV, 2.505 *eV, 2.510 *eV, 2.515 *eV, 2.520 *eV, 2.525 *eV,
 	                              2.530 *eV, 2.536 *eV, 2.541 *eV, 2.546 *eV, 2.551 *eV, 2.557 *eV, 2.562 *eV, 2.567 *eV, 2.572 *eV, 2.578 *eV,
 	                              2.583 *eV, 2.589 *eV, 2.594 *eV, 2.599 *eV, 2.605 *eV, 2.610 *eV, 2.616 *eV, 2.621 *eV, 2.627 *eV, 2.633 *eV,
 	                              2.638 *eV, 2.644 *eV, 2.649 *eV, 2.655 *eV, 2.661 *eV, 2.667 *eV, 2.672 *eV, 2.678 *eV, 2.684 *eV, 2.690 *eV,
@@ -43,7 +45,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	                              3.024 *eV, 3.032 *eV, 3.039 *eV, 3.047 *eV, 3.054 *eV, 3.062 *eV, 3.069 *eV, 3.077 *eV, 3.084 *eV, 3.092 *eV,
 	                              3.100 *eV, 3.108 *eV, 3.115 *eV, 3.123 *eV, 3.131 *eV, 3.139 *eV};
 
-     std::vector <G4double> rindexmatPlastic = {1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 
+     std::vector<G4double> rindexmatPlastic = {1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 
 	                                        1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58,
 	                                        1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58,
 	                                        1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58,
@@ -55,7 +57,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	                                        1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58,
 	                                        1.58, 1.58, 1.58, 1.58, 1.58, 1.58, 1.58};
 
-     std::vector <G4double> rindexWorld = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+     std::vector<G4double> rindexWorld = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
@@ -66,18 +68,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 	                                   1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-
-     std::vector <G4double> reflectivity = {0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,
-                                            0.9,0.9,0.9,0.9,0.9,0.9};
 
      std::vector<G4double> absorption = {3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m,
 	                                    3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m, 3.8 *m,
@@ -93,9 +83,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
      //Scintillation Properties
      G4MaterialPropertiesTable *mptmatPlastic = new G4MaterialPropertiesTable();
-     mptmatPlastic->AddProperty("RINDEX", energy, rindexmatPlastic);
+     mptmatPlastic -> AddProperty("RINDEX", energy, rindexmatPlastic);
 
-     std::vector <G4double> scint =  {0.000, 0.062, 0.066, 0.071, 0.075, 0.079, 0.084, 0.088, 0.092, 0.097,
+     std::vector<G4double> scint =  {0.000, 0.062, 0.066, 0.071, 0.075, 0.079, 0.084, 0.088, 0.092, 0.097,
 	                              0.104, 0.111, 0.118, 0.125, 0.131, 0.137, 0.146, 0.155, 0.164, 0.170,
 	                              0.176, 0.182, 0.195, 0.209, 0.221, 0.233, 0.244, 0.258, 0.271, 0.285,
 	                              0.302, 0.320, 0.335, 0.351, 0.366, 0.382, 0.397, 0.408, 0.416, 0.426,
@@ -113,20 +103,30 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      mptmatPlastic -> AddConstProperty("SCINTILLATIONRISETIME1", 0.9 *ns);
      mptmatPlastic -> AddConstProperty("SCINTILLATIONTIMECONSTANT1", 2.1 *ns);
      mptmatPlastic -> AddProperty("ABSLENGTH", energy, absorption, false, true);     
-     matPlastic->SetMaterialPropertiesTable(mptmatPlastic);
-    
+     matPlastic -> SetMaterialPropertiesTable(mptmatPlastic);
+   
      //World Properties
      G4Material *WorldMat = nist -> FindOrBuildMaterial("G4_AIR");
      G4MaterialPropertiesTable *mptWorld = new G4MaterialPropertiesTable();
      mptWorld -> AddProperty("RINDEX", energy, rindexWorld);
-     mptWorld -> AddProperty("REFLECTIVITY", energy, reflectivity);
      WorldMat -> SetMaterialPropertiesTable(mptWorld);
+
+     //PMT Properties
+     std::vector<G4double> DummyEgy = {1.0 *eV, 7.0 *eV};
+     std::vector<G4double> rindexGlass = {1.47, 1.47};												   																									   
+	std::vector<G4double> reflGlass = {0.04, 0.04};											   																												   
+	std::vector<G4double> transGlass = {0.9, 0.9};
+ 	G4MaterialPropertiesTable *mptGlass = new G4MaterialPropertiesTable();															   
+	mptGlass -> AddProperty("RINDEX", DummyEgy, rindexGlass);																			   
+	mptGlass -> AddProperty("REFLECTIVITY", DummyEgy, reflGlass);																		   
+	mptGlass -> AddProperty("TRANSMITTANCE", DummyEgy, transGlass);																	   
+	matPMT -> SetMaterialPropertiesTable(mptGlass);
 
      //World
      auto WorldSize = 3.0 *m;
      G4Box *SolidWorld = new G4Box("SolidWorld", 0.5*WorldSize, 0.5*WorldSize, 0.5*WorldSize);
-     G4LogicalVolume *WorldLV = new G4LogicalVolume(SolidWorld, WorldMat, "LogicalWorld");
-     G4VPhysicalVolume *WorldPV = new G4PVPlacement(0, G4ThreeVector(), WorldLV, "PhysicalWorld", 0, false, 0, true);
+     G4LogicalVolume *WorldLV = new G4LogicalVolume(SolidWorld, WorldMat, "WorldLV");
+     G4VPhysicalVolume *WorldPV = new G4PVPlacement(0, G4ThreeVector(), WorldLV, "WorldPV", 0, false, 0, true);
 
      //Scintillator
      auto ScintPos = G4ThreeVector(0.,0.,0.);
@@ -140,70 +140,69 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      PMTLog -> SetVisAttributes(new G4VisAttributes(G4Colour::Grey()));
      auto PMTPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 800 *mm), PMTLog, "PMTPhy", WorldLV, false, 0, true);
 
-/*
-     //0.5 mm thick Teflon film that covers the scintillator body
-	G4Box *OutTef =  new G4Box("OutTef", 26.0 *mm, 26.0 *mm, 750.5 *mm);
-	G4Box *InTef = new G4Box("InTef", 25.5 *mm, 25.5 *mm, 750. *mm);
+	const G4double airgap = 0.5 *mm;	//Size of airgap between scintillator and teflon
+
+	//0.5 mm thick Teflon film that covers the scintillator body
+	G4Box *OutTef =  new G4Box("OutTef", 26.0 *mm + airgap, 26.0 *mm + airgap, 750.5 *mm + airgap);
+	G4Box *InTef = new G4Box("InTef", 25.5 *mm + airgap, 25.5 *mm + airgap, 750. *mm + airgap);
      G4Tubs *TefCutter = new G4Tubs("TefCutter", 0., 26. *mm, 0.25 *mm, 0. *deg, 360. *deg);
 	G4SubtractionSolid *TefSolUncut = new G4SubtractionSolid("TefSolUncut", OutTef, InTef, nullptr, G4ThreeVector(0., 0., 0.));
      G4SubtractionSolid *TefSol = new G4SubtractionSolid("TefSol", TefSolUncut, TefCutter, nullptr, G4ThreeVector(0., 0., 750.25 *mm));
 	G4LogicalVolume *TefLog = new G4LogicalVolume(TefSol, matTef, "TefLog");
 	G4PVPlacement *TefPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 0.), TefLog, "TefPhy", WorldLV, false, 0, true);
-*/
-/*
+
      //0.5 mm thick aluminum foil that covers the scintillator body + Teflon
-	G4Box *OutFoil =  new G4Box("OutFoil", 26.5 *mm, 26.5 *mm, 751.0 *mm);
-	G4Box *InFoil = new G4Box("InFoil", 26.0 *mm, 26.0 *mm, 750.5 *mm);
+	G4Box *OutFoil =  new G4Box("OutFoil", 26.5 *mm + airgap, 26.5 *mm + airgap, 751.0 *mm + airgap);
+	G4Box *InFoil = new G4Box("InFoil", 26.0 *mm + airgap, 26.0 *mm + airgap, 750.5 *mm + airgap);
      G4Tubs *FoilCutter = new G4Tubs("FoilCutter", 0., 26. *mm, 0.25 *mm, 0. *deg, 360. *deg);
 	G4SubtractionSolid *FoilSolUncut = new G4SubtractionSolid("FoilSolUncut", OutFoil, InFoil, nullptr, G4ThreeVector(0., 0., 0.));
      G4SubtractionSolid *FoilSol = new G4SubtractionSolid("FoilSol", FoilSolUncut, FoilCutter, nullptr, G4ThreeVector(0., 0., 750.75 *mm));
 	G4LogicalVolume *FoilLog = new G4LogicalVolume(FoilSol, matFoil, "FoilLog");
 	G4PVPlacement *FoilPhy = new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 0.), FoilLog, "FoilPhy", WorldLV, false, 0, true);
-*/
-     //Optical surfaces
-     G4double ephoton[2] = {1.554 *eV, 4.959 *eV};
-     G4double Foil_reflectivity[2] = {0.80, 0.80};
-	G4MaterialPropertiesTable *SMPT = new G4MaterialPropertiesTable();
-	SMPT -> AddProperty("REFLECTIVITY", ephoton, Foil_reflectivity, 2);
 
+     //Optical surfaces
 	G4OpticalSurface* OpSurface1 = new G4OpticalSurface("OpSurf1");
      G4OpticalSurface* OpSurface2 = new G4OpticalSurface("OpSurf2");
      G4OpticalSurface* OpSurface3 = new G4OpticalSurface("OpSurf3");
+	G4OpticalSurface* OpSurface4 = new G4OpticalSurface("OpSurf4");
 	
-	//G4LogicalBorderSurface* LBS1 = new G4LogicalBorderSurface("LBS1", ScintPV, TefPhy, OpSurface1);
      G4LogicalBorderSurface* LBS1 = new G4LogicalBorderSurface("LBS1", ScintPV, WorldPV, OpSurface1);
      G4LogicalBorderSurface* LBS2 = new G4LogicalBorderSurface("LBS2", ScintPV, PMTPhy, OpSurface2);
-     //G4LogicalBorderSurface* LBS3 = new G4LogicalBorderSurface("LBS3", TefPhy, FoilPhy, OpSurface3);
-	
-     //Random reflectivity of Teflon surface
-     /*
-	OpSurface1 -> SetType(dielectric_LUTDAVIS);
-	OpSurface1 -> SetModel(DAVIS);
-	OpSurface1 -> SetFinish(RoughTeflon_LUT);
-     */
-     G4double Surf_reflectivity[2] = {0.95, 0.95};
-     G4MaterialPropertiesTable *SMPT2 = new G4MaterialPropertiesTable();
-	SMPT2 -> AddProperty("REFLECTIVITY", ephoton, Surf_reflectivity, 2);
-     OpSurface1 -> SetType(dielectric_dielectric);
-     OpSurface1 -> SetModel(unified);
-     OpSurface1 -> SetFinish(polished);
-     OpSurface1 -> SetMaterialPropertiesTable(SMPT2);
+	G4LogicalBorderSurface* LBS3 = new G4LogicalBorderSurface("LBS3", WorldPV, TefPhy, OpSurface3);
+     G4LogicalBorderSurface* LBS4 = new G4LogicalBorderSurface("LBS4", TefPhy, FoilPhy, OpSurface4);
 
-     //Boundary between PMT & Scintillator
-     OpSurface2 -> SetType(dielectric_dielectric);
-     OpSurface2 -> SetModel(unified);
-     OpSurface2 -> SetFinish(polished);
-/*
-     //Reflectivity of aluminum foil (80%)
-	OpSurface3 -> SetType(dielectric_metal);
+	G4double ephoton[2] = {1.554 *eV, 4.959 *eV};
+	G4double Surf_reflectivity[2] = {0.985, 0.985};
+     G4MaterialPropertiesTable *SMPT = new G4MaterialPropertiesTable();
+	SMPT -> AddProperty("REFLECTIVITY", ephoton, Surf_reflectivity, 2);
+
+     G4double Foil_reflectivity[2] = {0.80, 0.80};
+	G4MaterialPropertiesTable *SMPT2 = new G4MaterialPropertiesTable();
+	SMPT2 -> AddProperty("REFLECTIVITY", ephoton, Foil_reflectivity, 2);
+
+     OpSurface1 -> SetType(dielectric_dielectric);	
+	OpSurface1 -> SetModel(unified);
+	OpSurface1 -> SetFinish(polished);
+	OpSurface1 -> SetMaterialPropertiesTable(SMPT);
+
+     OpSurface2 -> SetType(dielectric_dielectric);	
+	OpSurface2 -> SetModel(unified);
+	OpSurface2 -> SetFinish(polished);
+
+	OpSurface3 -> SetType(dielectric_dielectric);	
 	OpSurface3 -> SetModel(unified);
 	OpSurface3 -> SetFinish(polished);
 	OpSurface3 -> SetMaterialPropertiesTable(SMPT);
-*/
-     //Step limit to 1 cm
-     //G4UserLimits *userLimits = new G4UserLimits(1.0 *cm);
+
+	OpSurface4 -> SetType(dielectric_metal);
+	OpSurface4 -> SetModel(unified);
+	OpSurface4 -> SetFinish(polished);
+	OpSurface4 -> SetMaterialPropertiesTable(SMPT2);
+
+     //Step limit to 1 mm
+     //G4UserLimits *userLimits = new G4UserLimits(1.0 *mm);
      //WorldLV -> SetUserLimits(userLimits);
      //ScintLV -> SetUserLimits(userLimits);
 
-return WorldPV;
+	return WorldPV;
 }

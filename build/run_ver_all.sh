@@ -5,7 +5,7 @@ num=1000
 
 for pos in {-70..70..10}
 do
-	echo "Current beam position : ${pos}"
+	echo -e "\nCurrent beam position : ${pos}"
 
 	sed -e "s/POS/${pos}/g" -e "s/NUM/${num}/g" run_ver.mac > run_ver_${pos}.mac
 
